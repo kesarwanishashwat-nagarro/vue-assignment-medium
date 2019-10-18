@@ -1,4 +1,4 @@
 // vue.config.js
 module.exports = {
-    publicPath: '<vue-assignment-medium>'
+    publicPath: '/vue-assignment-medium/'
 }

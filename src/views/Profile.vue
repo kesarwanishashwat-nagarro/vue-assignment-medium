@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <HeadingBar backColor="#f3f3f3"></HeadingBar>
+    <HeadingBar backColor="khaki"></HeadingBar>
     <div class="container profile-container">
       <div class="img-contain">
         <img :src="profile.image" alt="your image" height="100%" width="100%" />
@@ -93,8 +93,8 @@ export default {
       .img-contain{
         height: 80px;
         width: 80px;
-        border-radius: 50%;
         margin: 20px auto;
+        box-shadow: 10px 10px 10px grey;
       }
       .content{
         max-width: 75%;

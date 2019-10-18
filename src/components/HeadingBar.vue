@@ -35,6 +35,7 @@ export default {
     padding-bottom: 55px;
     margin-bottom: 0px;
     background: url(../assets/blog-header-background.jpg);
+    box-shadow: 2px 2px 10px grey;
     // background-size: 100% 100%;
     .display-3{
       font-weight: 800;

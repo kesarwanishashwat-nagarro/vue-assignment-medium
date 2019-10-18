@@ -78,9 +78,9 @@ export default {
       return ArticlesService.getAll(queryParams)
         .then(({ data }) => {
           if (queryParams.favorited === params.user) {
-            commit(MY_ARTICLES_SET, data)
-          } else {
             commit(FAVORITED_ARTICLES_SET, data)
+          } else {
+            commit(MY_ARTICLES_SET, data)
           }
         })
         .catch(error => {

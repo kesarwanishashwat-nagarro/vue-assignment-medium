@@ -1,0 +1,98 @@
+a{
+    text-decoration: none;
+    color: darkslategrey;;
+}
+.container{
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+button{
+    &.btn-primary{
+        background-color: #3d3438;
+        outline: none;
+        border:none;
+        font-size: 14px;
+        border: solid 1px #3d3438;
+        &:hover{
+            color: #3d3438;
+            background-color: #fff;
+            border: solid 1px #3d3438;
+        }
+        &:disabled{
+            background-color: darkgray;
+            color: #3d3438;
+            border: none;
+            &:hover{
+                background-color: darkgray;
+                color: #3d3438;
+                border: none;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+.tab-pane{
+    padding: 0px;
+}
+
+.error{
+    color: red;
+    font-size: 12px;
+    &::before{
+        content: '*';
+    }
+}
+
+.left{
+    float: left;
+    padding: 0px;
+}
+
+.right{
+    float: right;
+    padding: 0px;
+}
+
+.clear{
+    clear: both;
+}
+
+.nav-pills {
+    .nav-link {
+        font-size: 12;
+      &.active {
+        background-color: darkslategrey;
+      }
+    }
+  }
+
+.highlight{
+    color: #5cb85c !important;
+    cursor: pointer;
+}
+
+@media (min-width: 1024px){
+    .container{
+        max-width: 75%;
+    }
+
+    button{
+        &.btn-primary{
+            font-size: 16px;
+        }
+    }
+
+    .nav-pills {
+        .nav-link {
+            font-size: 14px;
+          &.active {
+            background-color: darkslategrey;
+          }
+        }
+      }
+    .tab-pane{
+        padding: auto;
+    }
+}

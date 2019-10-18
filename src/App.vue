@@ -1,28 +1,74 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="overlay" v-if="isLoading"></div>
+    <div class="loader" v-if="isLoading"></div>
+    <Navbar></Navbar>
+    <div class="content" v-bind:style="{ minHeight: minHeight + 'px'}">
+      <router-view/>
     </div>
-    <router-view/>
+    <Footer></Footer>
   </div>
 </template>
 
+<script>
+import Navbar from '@/components/Navbar.vue'
+import Footer from '@/components/Footer.vue'
+export default {
+  components: {
+    Navbar,
+    Footer
+  },
+  computed: {
+    isLoading(){
+      return this.$store.state.isLoading || false;
+    },
+    minHeight(){
+      const screenHeight = screen.height;
+      return screenHeight - 240;
+    }
+  }
+}
+</script>
+
 <style lang="scss">
+@import './shared/_global.scss';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+  .overlay{
+    position: fixed;
+    left:0px;
+    top:0px;
+    width:100%;
+    height: 100%;
+    background-color: #fff;
+    opacity: 0.7;
+    z-index: 1;
+  }
+  .loader{
+    position: fixed;
+    width:50px;
+    height: 50px;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    border: solid 5px;
+    border-top-color: red;
+    border-right-color: blue;
+    border-bottom-color: green;
+    border-left-color:darkorange;
+    border-radius: 50%;
+    z-index: 2;
+    // box-shadow: 50px 10px 10px black;
+    animation: rotate 0.5s infinite;
+  }
+
+  @keyframes rotate {
+    100%{
+      transform: rotateZ(360deg);
     }
   }
 }

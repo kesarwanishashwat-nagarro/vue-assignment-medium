@@ -41,50 +41,50 @@
 </template>
 
 <script>
-import { LOGOUT } from "../store/types/actions.type";
+import { LOGOUT } from '../store/types/actions.type'
 export default {
-  name: "navbar",
+  name: 'navbar',
   props: {
     msg: String
   },
-  data() {
+  data () {
     return {
-      activeItem : 'home'
+      activeItem: 'home'
     }
   },
   computed: {
-    isAuthenticated(){
-      return this.$store.state.auth.isAuthenticated;
+    isAuthenticated () {
+      return this.$store.state.auth.isAuthenticated
     },
-    username(){
-      return this.$store.state.auth.username || 'admin';
+    username () {
+      return this.$store.state.auth.username || 'admin'
     }
   },
   methods: {
-    signout(){
+    signout () {
       this.$store.dispatch(LOGOUT)
-      .then(() => {
-        if(this.$route.name !== 'home'){
-          this.$router.push({name: 'home'})
-        }
-      });
+        .then(() => {
+          if (this.$route.name !== 'home') {
+            this.$router.push({ name: 'home' })
+          }
+        })
     },
-    navigateToProfile(){
-      this.$router.push({name: 'user_profile', params:{user: this.username}})
+    navigateToProfile () {
+      this.$router.push({ name: 'user_profile', params: { user: this.username } })
     },
-    setActiveMenuItem(name){
-      this.activeItem = name;
+    setActiveMenuItem (name) {
+      this.activeItem = name
     }
   },
-  created(){
+  created () {
     this.setActiveMenuItem(this.$route.name)
   },
-  watch:{
-    $route (to, from){
-      this.setActiveMenuItem(to.name);
+  watch: {
+    $route (to, from) {
+      this.setActiveMenuItem(to.name)
     }
-} 
-};
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -40,10 +40,10 @@
 </template>
 
 <script>
-import { REGISTER, SHOW_LOADER, HIDE_LOADER} from '../store/types/actions.type'
+import { REGISTER, SHOW_LOADER, HIDE_LOADER } from '../store/types/actions.type'
 
 export default {
-  data(){
+  data () {
     return {
       user: {
         email: '',
@@ -53,25 +53,25 @@ export default {
       errors: null
     }
   },
-  computed:{
-    isValid(){
+  computed: {
+    isValid () {
       return this.user.email && this.user.password && this.user.username
     }
   },
   methods: {
-    register(){
-      this.$store.dispatch(SHOW_LOADER);
+    register () {
+      this.$store.dispatch(SHOW_LOADER)
       this.$store
         .dispatch(REGISTER, this.user)
         .then(() => {
-          this.$router.push({ name: "home" })
+          this.$router.push({ name: 'home' })
         })
         .catch((error) => {
-          this.errors = error.errors;
+          this.errors = error.errors
         })
         .finally(() => {
-          this.$store.dispatch(HIDE_LOADER);
-        });
+          this.$store.dispatch(HIDE_LOADER)
+        })
     }
   }
 }

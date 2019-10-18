@@ -53,9 +53,9 @@
 </template>
 
 <script>
-import HeadingBar from "@/components/HeadingBar.vue";
-import CommentForm from "@/components/CommentForm.vue";
-import CommentItem from "@/components/CommentItem.vue";
+import HeadingBar from '@/components/HeadingBar.vue'
+import CommentForm from '@/components/CommentForm.vue'
+import CommentItem from '@/components/CommentItem.vue'
 import {
   GET_ARTICLE,
   GET_COMMENTS,
@@ -64,13 +64,13 @@ import {
   COMMENT_DELETE,
   FAVORITE_REMOVE,
   FAVORITE_ADD
-} from "../store/types/actions.type";
+} from '../store/types/actions.type'
 export default {
-  data() {
+  data () {
     return {
       slug: this.$route.params.articleDesc,
       currentUser: this.$store.state.auth.username
-    };
+    }
   },
   components: {
     HeadingBar,
@@ -78,76 +78,66 @@ export default {
     CommentItem
   },
   computed: {
-    isAuthenticated() {
-      return this.$store.state.auth.isAuthenticated || false;
+    isAuthenticated () {
+      return this.$store.state.auth.isAuthenticated || false
     },
-    article() {
-      return this.$store.state.article.selected;
+    article () {
+      return this.$store.state.article.selected
     },
-    tags() {
-      return this.article ? this.article.tagList : [];
+    tags () {
+      return this.article ? this.article.tagList : []
     },
-    comments() {
-      return this.$store.state.article.comments || [];
+    comments () {
+      return this.$store.state.article.comments || []
     }
   },
-  created() {
-    this.$store.dispatch(GET_ARTICLE, this.slug);
-    this.$store.dispatch(GET_COMMENTS, this.slug);
+  created () {
+    this.$store.dispatch(GET_ARTICLE, this.slug)
+    this.$store.dispatch(GET_COMMENTS, this.slug)
   },
   methods: {
-    navigateEditor() {
+    navigateEditor () {
       this.$router.push({
-        name: "editor_existing",
+        name: 'editor_existing',
         params: {
           articleDesc: this.article.slug
         }
-      });
+      })
     },
-    deleteArticle() {
+    deleteArticle () {
       this.$store.dispatch(ARTICLE_DELETE, this.slug).then(() =>
         this.$router.push({
-          name: "user_profile",
+          name: 'user_profile',
           params: {
             user: this.currentUser
           }
         })
-      );
+      )
     },
-    addComment($event) {
+    addComment ($event) {
       const params = {
         slug: this.slug,
         payload: { body: $event }
-      };
+      }
       this.$store.dispatch(COMMENT_CREATE, params).then(() => {
-        this.$store.dispatch(GET_COMMENTS, this.slug);
-      });
+        this.$store.dispatch(GET_COMMENTS, this.slug)
+      })
     },
-    deleteComment($event) {
+    deleteComment ($event) {
       const param = {
         slug: this.slug,
         commentId: $event
-      };
+      }
       this.$store.dispatch(COMMENT_DELETE, param).then(() => {
-        this.$store.dispatch(GET_COMMENTS, this.slug);
-      });
+        this.$store.dispatch(GET_COMMENTS, this.slug)
+      })
     },
-    changeComment($event) {
-      const param = {
-        slug: this.slug,
-        commentId: $event.id,
-        payload: { body: $event.comment }
-      };
-      this.$store.dispatch(COMMENT_UPDATE, param).then(() => {
-        this.$store.dispatch(GET_COMMENTS, this.slug);
-      });
-    },
-    toggleFavorite() {
-      const action = this.article.favorited ? FAVORITE_REMOVE : FAVORITE_ADD;
+    toggleFavorite () {
+      const action = this.article.favorited ? FAVORITE_REMOVE : FAVORITE_ADD
       this.$store.dispatch(action, this.article.slug)
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

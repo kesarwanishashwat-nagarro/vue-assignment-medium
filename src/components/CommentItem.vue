@@ -17,19 +17,19 @@
 </template>
 <script>
 export default {
-    props:{
-        comment:{ type: Object, required: true }
-    },
-    data(){
-        return {
-            user: this.$store.state.auth.username
-        }
-    },
-    methods: {
-        onTrashClick(){
-            this.$emit('trashClick', this.comment.id);
-        }
+  props: {
+    comment: { type: Object, required: true }
+  },
+  data () {
+    return {
+      user: this.$store.state.auth.username
     }
+  },
+  methods: {
+    onTrashClick () {
+      this.$emit('trashClick', this.comment.id)
+    }
+  }
 }
 </script>
 

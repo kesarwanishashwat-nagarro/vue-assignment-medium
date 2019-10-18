@@ -7,7 +7,7 @@ import article from './modules/article.module'
 import {
   LOAD_START,
   LOAD_END
-  } from "./types/mutations.type";
+} from './types/mutations.type'
 
 import { SHOW_LOADER, HIDE_LOADER } from './types/actions.type'
 
@@ -18,19 +18,19 @@ export default new Vuex.Store({
     isLoading: false
   },
   mutations: {
-    [LOAD_START](state){
-      state.isLoading = true;
+    [LOAD_START] (state) {
+      state.isLoading = true
     },
-    [LOAD_END](state){
-      state.isLoading = false;
+    [LOAD_END] (state) {
+      state.isLoading = false
     }
 
   },
   actions: {
-    [SHOW_LOADER]({commit}){
+    [SHOW_LOADER] ({ commit }) {
       commit(LOAD_START)
     },
-    [HIDE_LOADER]({commit}){
+    [HIDE_LOADER] ({ commit }) {
       commit(LOAD_END)
     }
   },

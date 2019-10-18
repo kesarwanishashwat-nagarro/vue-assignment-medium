@@ -25,21 +25,21 @@
 
 <script>
 export default {
-    data(){
-      return {
-        pageNumber: this.currentPage
-      }
-    },
-    props:{
-        totalRecords: {type: Number, required: true},
-        currentPage: {type: Number, required: true, default: 1},
-        perPage: {type: Number, required: true},
-    },
-    methods: {
-      changePage(page){
-        this.$emit('pageChanged', page);
-      }
+  data () {
+    return {
+      pageNumber: this.currentPage
     }
+  },
+  props: {
+    totalRecords: { type: Number, required: true },
+    currentPage: { type: Number, required: true, default: 1 },
+    perPage: { type: Number, required: true }
+  },
+  methods: {
+    changePage (page) {
+      this.$emit('pageChanged', page)
+    }
+  }
 }
 </script>
 

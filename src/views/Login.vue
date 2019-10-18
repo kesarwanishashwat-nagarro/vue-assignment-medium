@@ -43,42 +43,42 @@
 </style>
 
 <script>
-import { LOGIN, SHOW_LOADER, HIDE_LOADER } from "../store/types/actions.type";
+import { LOGIN, SHOW_LOADER, HIDE_LOADER } from '../store/types/actions.type'
 
 export default {
-  data() {
+  data () {
     return {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       errors: null
-    };
+    }
   },
   methods: {
-    login() {
+    login () {
       const obj = {
         email: this.email,
         password: this.password
-      };
-      this.$store.dispatch(SHOW_LOADER);
+      }
+      this.$store.dispatch(SHOW_LOADER)
       this.$store
         .dispatch(LOGIN, obj)
         .then(() => {
-          this.$router.push({ name: "home" })
+          this.$router.push({ name: 'home' })
         })
         .catch((error) => {
-          this.errors = error.errors;
+          this.errors = error.errors
         })
         .finally(() => {
           this.$store.dispatch(HIDE_LOADER)
-        });
+        })
     }
   },
-  computed:{
-    isValid(){
+  computed: {
+    isValid () {
       return this.email && this.password
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -35,52 +35,51 @@
 </template>
 
 <script>
-import HeadingBar from "@/components/HeadingBar.vue";
-import ArticleCard from "@/components/ArticleCard.vue";
-import { GET_PROFILE, GET_PROFILE_ARTICLES  } from "../store/types/actions.type";
+import HeadingBar from '@/components/HeadingBar.vue'
+import ArticleCard from '@/components/ArticleCard.vue'
+import { GET_PROFILE, GET_PROFILE_ARTICLES } from '../store/types/actions.type'
 export default {
-  data(){
+  data () {
     return {
       tabIndex: 0,
       page: 1,
       user: this.$route.params.user
     }
   },
-    components: {
-      HeadingBar,
-      ArticleCard
+  components: {
+    HeadingBar,
+    ArticleCard
+  },
+  computed: {
+    profile () {
+      return this.$store.state.shared.selectedProfile
     },
-    computed: {
-      profile(){
-        return this.$store.state.shared.selectedProfile;
-      },
-      myArticles(){
-        return this.$store.state.article.myArticles || [];
-      },
-      favorited(){
-        return this.$store.state.article.favoritedArticles || [];
-      }
+    myArticles () {
+      return this.$store.state.article.myArticles || []
     },
-    created() {
-    if (this.$store.state.auth.isAuthenticated) {
-      this.$store.dispatch(GET_PROFILE, this.user);
-      this.selectArticleCategory(0);
+    favorited () {
+      return this.$store.state.article.favoritedArticles || []
     }
-    else{
-      this.$router.push({name: 'login'})
+  },
+  created () {
+    if (this.$store.state.auth.isAuthenticated) {
+      this.$store.dispatch(GET_PROFILE, this.user)
+      this.selectArticleCategory(0)
+    } else {
+      this.$router.push({ name: 'login' })
     }
   },
   methods: {
-    selectArticleCategory(type) {
-      this.tabIndex = type;
+    selectArticleCategory (type) {
+      this.tabIndex = type
       const payload = {
         type: type,
         page: this.page,
         user: this.user
-      };
-      this.$store.dispatch(GET_PROFILE_ARTICLES, payload);
+      }
+      this.$store.dispatch(GET_PROFILE_ARTICLES, payload)
     }
-  },
+  }
 }
 </script>
 

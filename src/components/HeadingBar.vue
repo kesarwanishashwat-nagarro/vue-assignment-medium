@@ -1,5 +1,5 @@
 <template>
-    <div class="jumbotron text-white" 
+    <div class="jumbotron text-white"
     v-bind:style="{background: backgroundColor || 'auto'}">
       <div class="data">
         <h1 class="display-3">{{title}}</h1>
@@ -17,11 +17,11 @@ export default {
   props: {
     title: String,
     subTitle: String,
-    backColor: ''
+    backColor: String
   },
   computed: {
-    backgroundColor(){
-      return this.backColor;
+    backgroundColor () {
+      return this.backColor
     }
   }
 }

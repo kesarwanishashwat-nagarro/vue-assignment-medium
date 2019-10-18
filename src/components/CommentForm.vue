@@ -18,19 +18,19 @@
 
 <script>
 export default {
-    name: 'comment-form',
-    data(){
-      return {
-        comment: '',
-        userImage: this.$store.state.auth.user.image
-      }
-    },
-    methods: {
-      submitComment(){
-        this.$emit('onCommentSubmit', this.comment);
-        this.comment = '';
-      }
+  name: 'comment-form',
+  data () {
+    return {
+      comment: '',
+      userImage: this.$store.state.auth.user.image
     }
+  },
+  methods: {
+    submitComment () {
+      this.$emit('onCommentSubmit', this.comment)
+      this.comment = ''
+    }
+  }
 }
 </script>
 

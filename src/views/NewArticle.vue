@@ -51,76 +51,75 @@ import {
   ARTICLE_UPDATE,
   GET_ARTICLE,
   ARTICLE_CREATE
-} from "../store/types/actions.type";
+} from '../store/types/actions.type'
 export default {
-  data() {
+  data () {
     return {
       slug: this.$route.params.articleDesc,
       tagString: ''
-    };
+    }
   },
   computed: {
-    article() {
-      return this.slug ?  this.$store.state.article.selected : {
+    article () {
+      return this.slug ? this.$store.state.article.selected : {
         body: '',
         description: '',
         title: '',
         tagList: []
-      };
+      }
     },
-    tags() {
-      return this.article ? this.article.tagList : [];
+    tags () {
+      return this.article ? this.article.tagList : []
     }
   },
-  created() {
+  created () {
     if (this.$store.state.auth.isAuthenticated) {
-      if(this.slug){
+      if (this.slug) {
         this.$store.dispatch(GET_ARTICLE, this.slug)
-        .then(() => {
-          this.article.tagList.forEach(tag => {
-            this.tagString += ',' + tag;
-          });
-          this.tagString = this.tagString.substring(1, this.tagString.length - 1);
-        });
+          .then(() => {
+            this.article.tagList.forEach(tag => {
+              this.tagString += ',' + tag
+            })
+            this.tagString = this.tagString.substring(1, this.tagString.length - 1)
+          })
       }
     } else {
-      this.$router.push({ name: "login" });
+      this.$router.push({ name: 'login' })
     }
   },
   methods: {
-    saveArticle() {
+    saveArticle () {
       const params = {
         routeParam: this.slug || null,
         payload: this.article
-      };
-      debugger;
-      params.payload.tagList = this.tagString.split(",");
+      }
+      params.payload.tagList = this.tagString.split(',')
       if (this.slug) {
         this.$store.dispatch(ARTICLE_UPDATE, params).then(data => {
           if (data && data.article) {
             this.$router.push({
-              name: "article",
+              name: 'article',
               params: {
                 articleDesc: this.slug
               }
-            });
+            })
           }
-        });
+        })
       } else {
         this.$store.dispatch(ARTICLE_CREATE, params).then(data => {
           if (data && data.article) {
             this.$router.push({
-              name: "article",
+              name: 'article',
               params: {
                 articleDesc: data.article.slug
               }
-            });
+            })
           }
-        });
+        })
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

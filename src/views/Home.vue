@@ -42,19 +42,19 @@
 
 <script>
 // @ is an alias to /src
-import HeadingBar from "@/components/HeadingBar.vue";
-import ArticleCard from "@/components/ArticleCard.vue";
-import Paging from "@/components/Paging.vue";
-import { GET_ARTICLES, GET_TAGS, UPDATE_PAGE_DATA  } from "../store/types/actions.type";
+import HeadingBar from '@/components/HeadingBar.vue'
+import ArticleCard from '@/components/ArticleCard.vue'
+import Paging from '@/components/Paging.vue'
+import { GET_ARTICLES, GET_TAGS, UPDATE_PAGE_DATA } from '../store/types/actions.type'
 
 export default {
-  name: "home",
-  data() {
+  name: 'home',
+  data () {
     return {
-      activeFeed: "global",
+      activeFeed: 'global',
       tabIndex: this.$store.state.home.feed || 1,
-      pageNumber: this.$store.state.home.page || 1,
-    };
+      pageNumber: this.$store.state.home.page || 1
+    }
   },
   components: {
     HeadingBar,
@@ -62,48 +62,48 @@ export default {
     Paging
   },
   methods: {
-    setFeed(type, page) {
-      this.tabIndex = type;
-      this.pageNumber = page;
-      this.activeFeed = type === 1 ? "global" : "myFeed";
+    setFeed (type, page) {
+      this.tabIndex = type
+      this.pageNumber = page
+      this.activeFeed = type === 1 ? 'global' : 'myFeed'
       const payload = {
         type: type,
         page: this.pageNumber
-      };
-      this.$store.dispatch(UPDATE_PAGE_DATA, {page: page, feed: this.tabIndex});
-      this.$store.dispatch(GET_ARTICLES, payload);
+      }
+      this.$store.dispatch(UPDATE_PAGE_DATA, { page: page, feed: this.tabIndex })
+      this.$store.dispatch(GET_ARTICLES, payload)
     },
-    onPageChange($event){
-      if(this.pageNumber != $event){
-        this.setFeed(this.tabIndex, $event);
+    onPageChange ($event) {
+      if (this.pageNumber !== $event) {
+        this.setFeed(this.tabIndex, $event)
       }
     }
   },
   computed: {
-    globalFeed() {
-      return this.$store.state.home.globalArticles || [];
+    globalFeed () {
+      return this.$store.state.home.globalArticles || []
     },
-    totalRows(){
-      return this.activeFeed === 'global' ? 
-      this.$store.state.home.globalArticlesCount : this.$store.state.home.userFeedCount
+    totalRows () {
+      return this.activeFeed === 'global'
+        ? this.$store.state.home.globalArticlesCount : this.$store.state.home.userFeedCount
     },
-    userFeed() {
-      return this.$store.state.home.userFeed || [];
+    userFeed () {
+      return this.$store.state.home.userFeed || []
     },
-    tags() {
-      return this.$store.state.home.tags || [];
+    tags () {
+      return this.$store.state.home.tags || []
     },
-    isAuthenticated() {
-      return this.$store.state.auth.isAuthenticated || false;
+    isAuthenticated () {
+      return this.$store.state.auth.isAuthenticated || false
     }
   },
-  created() {
-    this.setFeed(1, this.pageNumber);
+  created () {
+    this.setFeed(1, this.pageNumber)
   },
-  mounted() {
-    this.$store.dispatch(GET_TAGS);
+  mounted () {
+    this.$store.dispatch(GET_TAGS)
   }
-};
+}
 </script>
 
 <style lang="scss">

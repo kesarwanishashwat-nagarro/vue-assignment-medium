@@ -19,12 +19,12 @@ export default {
     Footer
   },
   computed: {
-    isLoading(){
-      return this.$store.state.isLoading || false;
+    isLoading () {
+      return this.$store.state.isLoading || false
     },
-    minHeight(){
-      const screenHeight = screen.height;
-      return screenHeight - 240;
+    minHeight () {
+      const screenHeight = screen.height
+      return screenHeight - 240
     }
   }
 }

@@ -1,18 +1,18 @@
 import { SharedService } from '../../services/shared.service'
 import {
   GET_PROFILE
-} from '../types/actions.type';
+} from '../types/actions.type'
 import {
   LOAD_START,
   LOAD_END,
   PROFILE_SET
-} from "../types/mutations.type";
+} from '../types/mutations.type'
 
 const dummyProfile = {
-  "username": "jake",
-  "bio": "I work at statefarm",
-  "image": "https://static.productionready.io/images/smiley-cyrus.jpg",
-  "following": false
+  'username': 'jake',
+  'bio': 'I work at statefarm',
+  'image': 'https://static.productionready.io/images/smiley-cyrus.jpg',
+  'following': false
 }
 
 export default {
@@ -21,24 +21,23 @@ export default {
     selectedProfile: dummyProfile
   },
   mutations: {
-    [PROFILE_SET](state, { profile }) {
-      state.selectedProfile = profile;
+    [PROFILE_SET] (state, { profile }) {
+      state.selectedProfile = profile
     }
   },
   actions: {
-    [GET_PROFILE]({ commit }, params) {
-      commit(LOAD_START);
+    [GET_PROFILE] ({ commit }, params) {
+      commit(LOAD_START)
       return SharedService.getProfile(params)
         .then(({ data }) => {
-          commit(PROFILE_SET, data);
+          commit(PROFILE_SET, data)
         })
         .catch(error => {
-          throw new Error(error);
+          throw new Error(error)
         })
         .finally(() => {
-          commit(LOAD_END);
-        });
+          commit(LOAD_END)
+        })
     }
   }
 }
-

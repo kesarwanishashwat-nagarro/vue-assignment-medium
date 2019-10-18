@@ -51,10 +51,10 @@
 </template>
 
 <script>
-import { FAVORITE_REMOVE, FAVORITE_ADD } from "../store/types/actions.type";
+import { FAVORITE_REMOVE, FAVORITE_ADD } from '../store/types/actions.type'
 export default {
-  name: "article-card",
-  data() {
+  name: 'article-card',
+  data () {
     return {
       actions: {
         type: Boolean,
@@ -63,41 +63,41 @@ export default {
       },
       selectedArticle: this.article,
       user: this.$store.state.auth.username
-    };
+    }
   },
   props: {
     article: { type: Object, required: true },
     canModify: { type: Boolean, required: false }
   },
   methods: {
-    toggleFavorite(e) {
-      e.stopPropagation();
+    toggleFavorite (e) {
+      e.stopPropagation()
       if (!this.isAuthenticated) {
-        this.$router.push({ name: "login" });
-        return;
+        this.$router.push({ name: 'login' })
+        return
       }
-      if (this.article.author.username !== user) {
-        const action = this.article.favorited ? FAVORITE_REMOVE : FAVORITE_ADD;
+      if (this.article.author.username !== this.user) {
+        const action = this.article.favorited ? FAVORITE_REMOVE : FAVORITE_ADD
         this.$store.dispatch(action, this.article.slug).then(article => {
           if (article) {
-            this.selectedArticle = article;
+            this.selectedArticle = article
           }
-        });
+        })
       }
     },
-    selectArticle() {
+    selectArticle () {
       this.$router.push({
-        name: "article",
+        name: 'article',
         params: { articleDesc: this.article.slug }
-      });
+      })
     }
   },
   computed: {
-    isAuthenticated() {
-      return this.$store.state.auth.isAuthenticated || false;
+    isAuthenticated () {
+      return this.$store.state.auth.isAuthenticated || false
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

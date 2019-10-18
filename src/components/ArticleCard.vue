@@ -109,9 +109,8 @@ export default {
     margin: 20px 0px;
     cursor: pointer;
     &:hover {
-      transform: scale(1.01);
-      transition: 0.2s transform ease-in-out;
       box-shadow: 2px 2px 10px lightgray;
+      background-color: #f3f5f8;
     }
     .card-header {
       background: none;

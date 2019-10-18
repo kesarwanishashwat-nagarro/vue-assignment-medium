@@ -4,7 +4,7 @@
     <div class="container home-content">
       <section class="left">
         <b-tabs pills card v-model="tabIndex">
-          <b-tab title="Your Feed" v-if="isAuthenticated" @click="setFeed(0, 1)">
+          <b-tab title="Your Feed" v-if="isAuthenticated" @click="setFeed(1,0)">
             <b-card-text>
               <template v-for="article in userFeed">
                 <ArticleCard v-bind:key="article.slug" :article="article"></ArticleCard>
@@ -14,7 +14,7 @@
               </template>
             </b-card-text>
           </b-tab>
-          <b-tab title="Global Feed" @click="setFeed(1, 1)">
+          <b-tab title="Global Feed" @click="setFeed(1,1)">
             <b-card-text>
               <template v-for="article in globalFeed">
                 <ArticleCard v-bind:key="article.slug" :article="article"></ArticleCard>
@@ -62,12 +62,16 @@ export default {
     Paging
   },
   methods: {
-    setFeed (type, page) {
-      this.tabIndex = type
+    setFeed (page, feed = 1) {
       this.pageNumber = page
-      this.activeFeed = type === 1 ? 'global' : 'myFeed'
+      this.tabIndex = feed;
+      if(this.isAuthenticated){
+        this.activeFeed = this.tabIndex === 1 ? 'global' : 'myFeed'
+      }else{
+        this.activeFeed = 'global'
+      }
       const payload = {
-        type: type,
+        type: this.tabIndex,
         page: this.pageNumber
       }
       this.$store.dispatch(UPDATE_PAGE_DATA, { page: page, feed: this.tabIndex })
@@ -75,7 +79,7 @@ export default {
     },
     onPageChange ($event) {
       if (this.pageNumber !== $event) {
-        this.setFeed(this.tabIndex, $event)
+        this.setFeed($event)
       }
     }
   },
@@ -98,7 +102,7 @@ export default {
     }
   },
   created () {
-    this.setFeed(1, this.pageNumber)
+    this.setFeed(this.pageNumber)
   },
   mounted () {
     this.$store.dispatch(GET_TAGS)

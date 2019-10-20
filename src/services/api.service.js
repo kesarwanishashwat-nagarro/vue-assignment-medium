@@ -2,16 +2,16 @@ import { api } from './api'
 import JwtService from './jwt.service'
 
 export const ApiService = {
-  async get(resource, slug) {
+  async get (resource, slug) {
     return api.get(`${resource}/${slug}`)
   },
 
-  async delete(resource, slug) {
+  async delete (resource, slug) {
     const route = slug ? `${resource}/${slug}` : resource
     return api.delete(route)
   },
 
-  async getAll(route, queryParams = {}) {
+  async getAll (route, queryParams = {}) {
     const queryparamKeys = Object.keys(queryParams)
     if (queryparamKeys.length) {
       route += '?'
@@ -23,26 +23,26 @@ export const ApiService = {
     return api.get(route)
   },
 
-  async post(route, payload) {
+  async post (route, payload) {
     return api.post(route, payload)
   },
 
-  async put(route, payload) {
+  async put (route, payload) {
     return api.put(route, payload)
   },
 
-  setToken() {
+  setToken () {
     if (JwtService.getToken()) {
       const JWT = JwtService.getToken()
       api.defaults.headers.common.Authorization = `Token ${JWT}`
     }
   },
 
-  clearToken() {
+  clearToken () {
     delete api.defaults.headers.common.Authorization
   },
 
-  async update(route, routeParams, payload) {
+  async update (route, routeParams, payload) {
     return api.put(route + '/' + routeParams, payload)
   }
 

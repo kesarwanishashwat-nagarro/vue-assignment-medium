@@ -133,9 +133,9 @@ export default {
       })
     },
     toggleFavorite () {
-      if(!this.isAuthenticated){
-        this.$router.push({name: 'login'});
-        return;
+      if (!this.isAuthenticated) {
+        this.$router.push({ name: 'login' })
+        return
       }
       const action = this.article.favorited ? FAVORITE_REMOVE : FAVORITE_ADD
       this.$store.dispatch(action, this.article.slug)
@@ -231,6 +231,7 @@ export default {
       padding: 0px;
       padding-bottom: 30px;
       border-bottom: solid 1px lightgray;
+      flex-wrap: wrap;
       .tag-item {
         list-style-type: none;
         padding: 3px 5px;

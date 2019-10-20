@@ -12,7 +12,7 @@ export default {
     isAuthenticated: JwtService.getToken() || false
   },
   getters: {
-    isAuthenticated(){
+    isAuthenticated () {
       return JwtService.getToken() || false
     }
   },

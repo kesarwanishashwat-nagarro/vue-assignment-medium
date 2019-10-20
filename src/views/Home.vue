@@ -84,7 +84,7 @@ export default {
 
       const payload = {
         type: this.tabIndex,
-        page: this.pageNumber
+        page: page
       }
       if (tag) {
         payload.tag = tag

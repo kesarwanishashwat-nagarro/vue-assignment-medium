@@ -24,7 +24,7 @@
         <div class="tags">
           <h6>Popular Tags</h6>
           <ul class="tag-items">
-            <li class="tag-item" v-bind:key="item" v-for="(item,index) in tags" 
+            <li class="tag-item" v-bind:key="item" v-for="(item,index) in tags"
             @click="selectTag(item, index)" :class="{'active': selectedTagIndex === index}">{{item}}</li>
           </ul>
         </div>
@@ -100,7 +100,7 @@ export default {
       }
     },
     selectTag (tag, index) {
-      if(this.selectedTagIndex != index){
+      if (this.selectedTagIndex !== index) {
         this.selectedTagIndex = index
         this.tabs[2].name = '#' + tag
         this.tabs[2].show = true
@@ -135,7 +135,7 @@ export default {
   watch: {
     isAuthenticated (newVal, oldVal) {
       this.tabs[0].show = newVal
-      this.tabs[1].index = newVal ? 1 : 0;
+      this.tabs[1].index = newVal ? 1 : 0
     }
   }
 }

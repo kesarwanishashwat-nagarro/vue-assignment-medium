@@ -35,8 +35,8 @@ export default {
       state.feed = feed
     },
     [CLEAR_ARTICLES] (state) {
-      state.articlesList = [];
-      state.articlesCount = 0;
+      state.articlesList = []
+      state.articlesCount = 0
     }
   },
   actions: {

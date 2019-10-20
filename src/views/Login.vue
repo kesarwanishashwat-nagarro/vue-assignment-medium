@@ -79,20 +79,11 @@ export default {
       return this.email && this.password
     }
   },
-//   beforeRouteEnter(to, from, next) {
-//   next(vm => {
-//     this.prevRoute = from
-//     console.log(this.prevRoute)
-//   })
-  
-// }
- beforeRouteEnter(to, from, next) {
-  next(vm => {
-    vm.prevRoute = from
-    console.log(vm.prevRoute);
-    console.log(vm.$router)
-  })
-}
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.prevRoute = from
+    })
+  }
 }
 </script>
 

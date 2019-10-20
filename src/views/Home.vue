@@ -64,7 +64,7 @@ export default {
           name: 'Tag Feed',
           show: false,
           index: 2,
-          callback: () => this.selectTag(this.tags[this.selectedTagIndex], this.selectedTagIndex)
+          callback: () => this.selectTag(this.tags[this.selectedTagIndex], this.selectedTagIndex, true)
         }
       ],
       selectedTab: null
@@ -99,8 +99,8 @@ export default {
           this.selectedTab, this.selectedTab.name.indexOf('#') >= 0 ? this.selectedTab.name.substring(1) : null)
       }
     },
-    selectTag (tag, index) {
-      if (this.selectedTagIndex !== index) {
+    selectTag (tag, index, isTabCall = false) {
+      if (this.selectedTagIndex !== index || isTabCall) {
         this.selectedTagIndex = index
         this.tabs[2].name = '#' + tag
         this.tabs[2].show = true
@@ -108,8 +108,7 @@ export default {
       }
     },
     cardTagSelected ($event) {
-      this.selectedTagIndex = this.tags.indexOf($event)
-      this.selectTag($event, this.selectedTagIndex)
+      this.selectTag($event, this.tags.indexOf($event))
     }
   },
   computed: {

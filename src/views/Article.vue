@@ -36,8 +36,8 @@
       <div class="comments">
         <CommentForm v-if="isAuthenticated" @onCommentSubmit="addComment($event)"></CommentForm>
         <p v-if="!isAuthenticated">
-          <router-link class="highlight" to="/login">Sign in</router-link>or
-          <router-link class="highlight" to="/register">Sign up</router-link>to add comments on this article.
+          <router-link class="highlight" to="/login">Sign in</router-link> or
+          <router-link class="highlight" to="/register">Sign up</router-link> to add comments on this article.
         </p>
         <div class="comment-list">
           <CommentItem
@@ -133,6 +133,10 @@ export default {
       })
     },
     toggleFavorite () {
+      if (!this.isAuthenticated) {
+        this.$router.push({ name: 'login' })
+        return
+      }
       const action = this.article.favorited ? FAVORITE_REMOVE : FAVORITE_ADD
       this.$store.dispatch(action, this.article.slug)
     }
@@ -227,6 +231,7 @@ export default {
       padding: 0px;
       padding-bottom: 30px;
       border-bottom: solid 1px lightgray;
+      flex-wrap: wrap;
       .tag-item {
         list-style-type: none;
         padding: 3px 5px;

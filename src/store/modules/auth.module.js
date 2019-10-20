@@ -11,6 +11,11 @@ export default {
     username: JwtService.getUsername() || '',
     isAuthenticated: JwtService.getToken() || false
   },
+  getters: {
+    isAuthenticated () {
+      return JwtService.getToken() || false
+    }
+  },
   mutations: {
     [SET_AUTH] (state, user) {
       state.isAuthenticated = true

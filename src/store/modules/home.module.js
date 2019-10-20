@@ -2,34 +2,28 @@ import { ArticlesService } from '../../services/articles.service'
 import { SharedService } from '../../services/shared.service'
 import { GET_ARTICLES, GET_TAGS, UPDATE_PAGE_DATA } from '../types/actions.type'
 import {
-  ARTICLE_SET_GLOBAL,
-  ARTICLE_SET_USER,
+  ARTICLES_SET,
   LOAD_START,
   LOAD_END,
   SET_TAGS,
   SET_FEED,
-  SET_PAGE
+  SET_PAGE,
+  CLEAR_ARTICLES
 } from '../types/mutations.type'
 
 export default {
   namepaced: true,
   state: {
     tags: ['tag1', 'tag2'],
-    globalArticles: [],
-    userFeed: [],
-    globalArticlesCount: 0,
-    userFeedCount: 0,
+    articlesList: [],
+    articlesCount: 0,
     feed: 1,
     page: 1
   },
   mutations: {
-    [ARTICLE_SET_GLOBAL] (state, { articles, articlesCount }) {
-      state.globalArticles = articles
-      state.globalArticlesCount = articlesCount
-    },
-    [ARTICLE_SET_USER] (state, { articles, articlesCount }) {
-      state.userFeed = articles
-      state.userFeedCount = articlesCount
+    [ARTICLES_SET] (state, { articles, articlesCount }) {
+      state.articlesList = articles
+      state.articlesCount = articlesCount
     },
     [SET_TAGS] (state, tags) {
       state.tags = tags
@@ -39,38 +33,32 @@ export default {
     },
     [SET_PAGE] (state, feed) {
       state.feed = feed
+    },
+    [CLEAR_ARTICLES] (state) {
+      state.articlesList = []
+      state.articlesCount = 0
     }
   },
   actions: {
-    [GET_ARTICLES] ({ commit }, params) {
+    [GET_ARTICLES] ({ commit, getters }, params) {
       commit(LOAD_START)
       const queryParams = {
         limit: 10,
         offset: (params.page - 1) * 10
       }
-      if (params.type === 1) {
-        return ArticlesService.getAll(queryParams)
-          .then(({ data }) => {
-            commit(ARTICLE_SET_GLOBAL, data)
-          })
-          .catch(error => {
-            throw new Error(error)
-          })
-          .finally(() => {
-            commit(LOAD_END)
-          })
-      } else {
-        return ArticlesService.query('feed', queryParams)
-          .then(({ data }) => {
-            commit(ARTICLE_SET_USER, data)
-          })
-          .catch(error => {
-            throw new Error(error)
-          })
-          .finally(() => {
-            commit(LOAD_END)
-          })
+      if (params.tag) {
+        queryParams.tag = params.tag
       }
+      return ArticlesService.query(getters.isAuthenticated && params.type === 0 ? 'feed' : '', queryParams)
+        .then(({ data }) => {
+          commit(ARTICLES_SET, data)
+        })
+        .catch(error => {
+          throw new Error(error)
+        })
+        .finally(() => {
+          commit(LOAD_END)
+        })
     },
     [GET_TAGS] ({ commit }) {
       commit(LOAD_START)
@@ -88,6 +76,7 @@ export default {
     [UPDATE_PAGE_DATA] ({ commit }, params) {
       commit(SET_FEED, params.feed)
       commit(SET_PAGE, params.page)
+      commit(CLEAR_ARTICLES)
     }
   }
 }

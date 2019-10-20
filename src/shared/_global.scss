@@ -61,7 +61,9 @@ button{
 
 .nav-pills {
     .nav-link {
-        font-size: 12;
+        font-size: 12px;
+        max-width: 150px;
+        overflow: hidden;
       &.active {
         background-color: darkslategrey;
       }

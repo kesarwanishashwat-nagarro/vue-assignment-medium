@@ -4,26 +4,18 @@
     <div class="container home-content">
       <section class="left">
         <b-tabs pills card v-model="tabIndex">
-          <b-tab title="Your Feed" v-if="isAuthenticated" @click="setFeed(0, 1)">
-            <b-card-text>
-              <template v-for="article in userFeed">
-                <ArticleCard v-bind:key="article.slug" :article="article"></ArticleCard>
-              </template>
-              <template v-if="userFeed && userFeed.length === 0">
-                <h6>Your Feed does not contain any articles...</h6>
-              </template>
-            </b-card-text>
-          </b-tab>
-          <b-tab title="Global Feed" @click="setFeed(1, 1)">
-            <b-card-text>
-              <template v-for="article in globalFeed">
-                <ArticleCard v-bind:key="article.slug" :article="article"></ArticleCard>
-              </template>
-              <template v-if="globalFeed && globalFeed.length===0">
-                <h6>Global Feed does not contain any articles...</h6>
-              </template>
-            </b-card-text>
-          </b-tab>
+          <template v-for="tab in tabs">
+            <b-tab :key="tab.index" v-if="tab.show" :title="tab.name" @click="tab.callback">
+              <b-card-text>
+                <template v-for="article in articlesFeed">
+                  <ArticleCard v-bind:key="article.slug" :article="article" @tagClicked="cardTagSelected"></ArticleCard>
+                </template>
+                <template v-if="articlesFeed && articlesFeed.length<=0">
+                  <h6>{{tab.name}} does not contain any articles...</h6>
+                </template>
+              </b-card-text>
+            </b-tab>
+          </template>
         </b-tabs>
         <Paging v-if="totalRows/10 > 1" :totalRecords="totalRows" :currentPage="pageNumber" :perPage="10"
         @pageChanged="onPageChange($event)"></Paging>
@@ -32,7 +24,8 @@
         <div class="tags">
           <h6>Popular Tags</h6>
           <ul class="tag-items">
-            <li class="tag-item" v-bind:key="item" v-for="item in tags">{{item}}</li>
+            <li class="tag-item" v-bind:key="item" v-for="(item,index) in tags"
+            @click="selectTag(item, index)" :class="{'active': selectedTagIndex === index}">{{item}}</li>
           </ul>
         </div>
       </section>
@@ -51,9 +44,30 @@ export default {
   name: 'home',
   data () {
     return {
-      activeFeed: 'global',
       tabIndex: this.$store.state.home.feed || 1,
-      pageNumber: this.$store.state.home.page || 1
+      pageNumber: this.$store.state.home.page || 1,
+      selectedTagIndex: -1,
+      tabs: [
+        {
+          name: 'Your Feed',
+          show: this.$store.state.auth.isAuthenticated || false,
+          index: 0,
+          callback: () => this.setFeed(1, this.tabs[0])
+        },
+        {
+          name: 'Global Feed',
+          show: true,
+          index: 1,
+          callback: () => this.setFeed(1, this.tabs[1])
+        },
+        {
+          name: 'Tag Feed',
+          show: false,
+          index: 2,
+          callback: () => this.selectTag(this.tags[this.selectedTagIndex], this.selectedTagIndex)
+        }
+      ],
+      selectedTab: null
     }
   },
   components: {
@@ -62,33 +76,48 @@ export default {
     Paging
   },
   methods: {
-    setFeed (type, page) {
-      this.tabIndex = type
-      this.pageNumber = page
-      this.activeFeed = type === 1 ? 'global' : 'myFeed'
+    setFeed (page, tab, tag = null) {
+      setTimeout(() => {
+        this.pageNumber = page
+        this.selectedTab = tab
+        this.tabIndex = tab.index
+      })
+
       const payload = {
-        type: type,
-        page: this.pageNumber
+        type: tab.index,
+        page: page
+      }
+      if (tag) {
+        payload.tag = tag
       }
       this.$store.dispatch(UPDATE_PAGE_DATA, { page: page, feed: this.tabIndex })
       this.$store.dispatch(GET_ARTICLES, payload)
     },
     onPageChange ($event) {
       if (this.pageNumber !== $event) {
-        this.setFeed(this.tabIndex, $event)
+        this.setFeed($event,
+          this.selectedTab, this.selectedTab.name.indexOf('#') >= 0 ? this.selectedTab.name.substring(1) : null)
       }
+    },
+    selectTag (tag, index) {
+      if (this.selectedTagIndex !== index) {
+        this.selectedTagIndex = index
+        this.tabs[2].name = '#' + tag
+        this.tabs[2].show = true
+        this.setFeed(1, this.tabs[2], tag)
+      }
+    },
+    cardTagSelected ($event) {
+      this.selectedTagIndex = this.tags.indexOf($event)
+      this.selectTag($event, this.selectedTagIndex)
     }
   },
   computed: {
-    globalFeed () {
-      return this.$store.state.home.globalArticles || []
+    articlesFeed () {
+      return this.$store.state.home.articlesList || []
     },
     totalRows () {
-      return this.activeFeed === 'global'
-        ? this.$store.state.home.globalArticlesCount : this.$store.state.home.userFeedCount
-    },
-    userFeed () {
-      return this.$store.state.home.userFeed || []
+      return this.$store.state.home.articlesCount
     },
     tags () {
       return this.$store.state.home.tags || []
@@ -98,10 +127,16 @@ export default {
     }
   },
   created () {
-    this.setFeed(1, this.pageNumber)
+    this.setFeed(1, this.tabs[1])
   },
   mounted () {
     this.$store.dispatch(GET_TAGS)
+  },
+  watch: {
+    isAuthenticated (newVal, oldVal) {
+      this.tabs[0].show = newVal
+      this.tabs[1].index = newVal ? 1 : 0
+    }
   }
 }
 </script>

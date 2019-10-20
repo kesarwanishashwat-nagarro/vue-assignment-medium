@@ -41,7 +41,12 @@
         </div>
         <div class="right">
           <ul class="tag-items">
-            <li class="tag-item" v-bind:key="item" v-for="item in selectedArticle.tagList">{{item}}</li>
+            <li
+              class="tag-item"
+              v-bind:key="item"
+              v-for="item in selectedArticle.tagList"
+              @click="filterByTag($event, item)"
+            >{{item}}</li>
           </ul>
         </div>
         <div class="clear"></div>
@@ -90,11 +95,18 @@ export default {
         name: 'article',
         params: { articleDesc: this.article.slug }
       })
+    },
+    filterByTag (e, item) {
+      e.stopPropagation()
+      this.$emit('tagClicked', item)
     }
   },
   computed: {
     isAuthenticated () {
       return this.$store.state.auth.isAuthenticated || false
+    },
+    tags () {
+      return this.$store.state.home.tags || []
     }
   }
 }
@@ -116,6 +128,7 @@ export default {
       background: none;
       border: none;
       .left {
+        padding: 0px;
         .left-content {
           display: flex;
           .header-image {
@@ -182,22 +195,24 @@ export default {
     .card-footer {
       background: none;
       border: none;
-      padding: 10px 20px 0px 20px;
+      padding: 10px 20px 10px 20px;
       .left {
         padding: 0px;
-        width: 50%;
+        width: 30%;
         .footer-text {
           font-size: 12px;
           color: lightgray;
         }
       }
       .right {
-        width: 50%;
+        width: 70%;
         .tag-items {
           display: flex;
           padding: 0px;
           flex-direction: row-reverse;
           flex-wrap: wrap;
+          word-break: break-all;
+          margin: 2px;
           .tag-item {
             list-style-type: none;
             padding: 3px 5px;

@@ -50,7 +50,8 @@ export default {
     return {
       email: '',
       password: '',
-      errors: null
+      errors: null,
+      prevRoute: ''
     }
   },
   methods: {
@@ -63,7 +64,7 @@ export default {
       this.$store
         .dispatch(LOGIN, obj)
         .then(() => {
-          this.$router.push({ name: 'home' })
+          this.$router.push(this.prevRoute)
         })
         .catch((error) => {
           this.errors = error.errors
@@ -77,7 +78,21 @@ export default {
     isValid () {
       return this.email && this.password
     }
-  }
+  },
+//   beforeRouteEnter(to, from, next) {
+//   next(vm => {
+//     this.prevRoute = from
+//     console.log(this.prevRoute)
+//   })
+  
+// }
+ beforeRouteEnter(to, from, next) {
+  next(vm => {
+    vm.prevRoute = from
+    console.log(vm.prevRoute);
+    console.log(vm.$router)
+  })
+}
 }
 </script>
 

@@ -24,7 +24,8 @@
         <div class="tags">
           <h6>Popular Tags</h6>
           <ul class="tag-items">
-            <li class="tag-item" v-bind:key="item" v-for="(item,index) in tags" @click="selectTag(item, index)">{{item}}</li>
+            <li class="tag-item" v-bind:key="item" v-for="(item,index) in tags" 
+            @click="selectTag(item, index)" :class="{'active': selectedTagIndex === index}">{{item}}</li>
           </ul>
         </div>
       </section>
@@ -56,7 +57,7 @@ export default {
         {
           name: 'Global Feed',
           show: true,
-          index: this.isAuthenticated ? 1 :0,
+          index: 1,
           callback: () => this.setFeed(1, this.tabs[1])
         },
         {
@@ -83,7 +84,7 @@ export default {
       })
 
       const payload = {
-        type: this.tabIndex,
+        type: tab.index,
         page: page
       }
       if (tag) {
@@ -99,10 +100,12 @@ export default {
       }
     },
     selectTag (tag, index) {
-      this.selectedTagIndex = index
-      this.tabs[2].name = '#' + tag
-      this.tabs[2].show = true
-      this.setFeed(1, this.tabs[2], tag)
+      if(this.selectedTagIndex != index){
+        this.selectedTagIndex = index
+        this.tabs[2].name = '#' + tag
+        this.tabs[2].show = true
+        this.setFeed(1, this.tabs[2], tag)
+      }
     },
     cardTagSelected ($event) {
       this.selectedTagIndex = this.tags.indexOf($event)
@@ -132,6 +135,7 @@ export default {
   watch: {
     isAuthenticated (newVal, oldVal) {
       this.tabs[0].show = newVal
+      this.tabs[1].index = newVal ? 1 : 0;
     }
   }
 }

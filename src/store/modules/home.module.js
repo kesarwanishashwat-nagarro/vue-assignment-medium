@@ -7,8 +7,8 @@ import {
   LOAD_END,
   SET_TAGS,
   SET_FEED,
-  SET_PAGE
-  // GET_TAG_ARTICLES
+  SET_PAGE,
+  CLEAR_ARTICLES
 } from '../types/mutations.type'
 
 export default {
@@ -33,6 +33,10 @@ export default {
     },
     [SET_PAGE] (state, feed) {
       state.feed = feed
+    },
+    [CLEAR_ARTICLES] (state) {
+      state.articlesList = [];
+      state.articlesCount = 0;
     }
   },
   actions: {
@@ -72,25 +76,7 @@ export default {
     [UPDATE_PAGE_DATA] ({ commit }, params) {
       commit(SET_FEED, params.feed)
       commit(SET_PAGE, params.page)
+      commit(CLEAR_ARTICLES)
     }
-    // [GET_TAG_ARTICLES] ({ commit }, params){
-    //   const queryParams = {
-    //     limit: 10,
-    //     offset: (params.page - 1) * 10,
-    //     tag: param.tag
-    //   }
-    //   return new Promise((resolve, reject) => {
-    //     ArticlesService.query('', queryParams)
-    //       .then(({ data }) => {
-    //         commit(ARTICLE_SET_USER, data)
-    //       })
-    //       .catch(error => {
-    //         throw new Error(error)
-    //       })
-    //       .finally(() => {
-    //         commit(LOAD_END)
-    //       })
-    //   })
-    // }
   }
 }

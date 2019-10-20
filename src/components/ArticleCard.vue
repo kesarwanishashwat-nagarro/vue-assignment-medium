@@ -195,17 +195,17 @@ export default {
     .card-footer {
       background: none;
       border: none;
-      padding: 10px 20px 0px 20px;
+      padding: 10px 20px 10px 20px;
       .left {
         padding: 0px;
-        width: 50%;
+        width: 30%;
         .footer-text {
           font-size: 12px;
           color: lightgray;
         }
       }
       .right {
-        width: 50%;
+        width: 70%;
         .tag-items {
           display: flex;
           padding: 0px;

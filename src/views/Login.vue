@@ -10,10 +10,10 @@
 
           <form>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="Email" v-model="email" />
+              <input class="form-control form-control-lg" id="emailField" type="text" placeholder="Email" v-model="email" />
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="password" placeholder="Password" v-model="password" />
+              <input class="form-control form-control-lg" id="passwordField" type="password" placeholder="Password" v-model="password" />
               <template v-if="errors">
                 <div class="error" v-bind:key="index" v-for="(error,index) in errors['email or password']">
                   email or password {{errors['email or password'][index]}}

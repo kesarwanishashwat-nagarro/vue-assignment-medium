@@ -44,9 +44,6 @@
 import { LOGOUT } from '../store/types/actions.type'
 export default {
   name: 'navbar',
-  props: {
-    msg: String
-  },
   data () {
     return {
       activeItem: 'home'
